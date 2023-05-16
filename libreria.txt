@@ -1,0 +1,132 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.0
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 16-05-2023 a las 23:42:43
+-- Versión del servidor: 10.4.24-MariaDB
+-- Versión de PHP: 8.1.6
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `libreria`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `clientes`
+--
+
+CREATE TABLE `clientes` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(45) COLLATE utf8_spanish2_ci NOT NULL,
+  `apellido` varchar(45) COLLATE utf8_spanish2_ci NOT NULL,
+  `telefono` varchar(45) COLLATE utf8_spanish2_ci NOT NULL,
+  `correo` varchar(45) COLLATE utf8_spanish2_ci NOT NULL,
+  `direccion` varchar(45) COLLATE utf8_spanish2_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `libros`
+--
+
+CREATE TABLE `libros` (
+  `id` int(11) NOT NULL,
+  `titulo` varchar(45) COLLATE utf8_spanish2_ci DEFAULT NULL,
+  `autor` varchar(45) COLLATE utf8_spanish2_ci NOT NULL DEFAULT 'Alejandro Macia',
+  `isbn` varchar(45) COLLATE utf8_spanish2_ci DEFAULT NULL,
+  `genero` enum('novela','ciencia ficcion','romance','historia') COLLATE utf8_spanish2_ci NOT NULL DEFAULT 'novela',
+  `yearpublicacion` varchar(4) COLLATE utf8_spanish2_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `prestamo`
+--
+
+CREATE TABLE `prestamo` (
+  `id` int(11) NOT NULL,
+  `codigo` int(11) NOT NULL,
+  `fecharetiro` date NOT NULL,
+  `fechaentrega` date NOT NULL,
+  `libro` int(11) NOT NULL,
+  `cliente` int(11) NOT NULL,
+  `estado` enum('prestado','devuelto') COLLATE utf8_spanish2_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `clientes`
+--
+ALTER TABLE `clientes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `libros`
+--
+ALTER TABLE `libros`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `titulo` (`titulo`);
+
+--
+-- Indices de la tabla `prestamo`
+--
+ALTER TABLE `prestamo`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `codigo` (`codigo`),
+  ADD UNIQUE KEY `libros_foreignkey` (`libro`),
+  ADD UNIQUE KEY `clientes_foreignkey` (`cliente`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `clientes`
+--
+ALTER TABLE `clientes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `libros`
+--
+ALTER TABLE `libros`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `prestamo`
+--
+ALTER TABLE `prestamo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `prestamo`
+--
+ALTER TABLE `prestamo`
+  ADD CONSTRAINT `prestamo_ibfk_1` FOREIGN KEY (`Cliente`) REFERENCES `clientes` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `prestamo_ibfk_2` FOREIGN KEY (`Libro`) REFERENCES `libros` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

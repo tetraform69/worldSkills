@@ -1,0 +1,32 @@
+Proyecto de Desarrollo Web en PHP
+
+=========================================================
+Versión de Herramientas Utilizadas:
+
+Backend:
+- Lenguaje: PHP
+- Framework: ninguno
+Frontend:
+- Lenguaje: html
+- Framework: bootstrap (version 5)
+
+Base de Datos:
+- MySQL
+
+Servidor Web:
+- Apache
+=========================================================
+Estructura del Proyecto:
+
+/backend
+    /controller
+        archivos.php
+    /model
+        archivos.php
+
+/frontend
+    /view
+        /assets
+            /js
+                archivos js
+    archivos html
